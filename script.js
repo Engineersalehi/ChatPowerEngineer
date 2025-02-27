@@ -18,22 +18,18 @@ function sendMessage() {
         userMessage.textContent = "🧑‍💻 شما: " + message;
         chatBox.appendChild(userMessage);
 
-        // ارسال پیام به ChatGPT API
-        fetch(`https://api.chatanywhere.tech/v1/chat/completions`, {
+        // ارسال پیام به سرور شخصی که API Key را مخفی نگه می‌دارد
+        fetch("https://your-server.com/chat", {  // این URL را باید روی هاست شخصی اجرا کنی
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer YOUR_API_KEY"
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                model: "gpt-3.5-turbo",
-                messages: [{ role: "user", content: message }]
-            })
+            body: JSON.stringify({ message: message })
         })
         .then(response => response.json())
         .then(data => {
             let botMessage = document.createElement("div");
-            botMessage.textContent = "🤖 هوش مصنوعی: " + data.choices[0].message.content;
+            botMessage.textContent = "🤖 هوش مصنوعی: " + data.reply;
             chatBox.appendChild(botMessage);
         })
         .catch(error => {
